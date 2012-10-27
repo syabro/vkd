@@ -1,3 +1,5 @@
+![VKD](https://raw.github.com/syabro/vkd/master/resources/image.png)
+
 vkontakte-post-downloader
 =========================
 

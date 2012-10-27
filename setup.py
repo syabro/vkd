@@ -1,9 +1,7 @@
 from distutils.command.install import INSTALL_SCHEMES
-from pprint import pprint
 from distutils.command.install_data import install_data
 from setuptools import setup
 import os
-import re
 import sys
 
 
@@ -57,7 +55,7 @@ for scheme in INSTALL_SCHEMES.values():
 
 setup(
     name='vkd',
-    version='1.0.0.1',
+    version='1.0.0.4',
     packages = packages,
     cmdclass = cmdclasses,
     data_files = data_files,
@@ -67,7 +65,8 @@ setup(
         'requests',
         'hurry.filesize',
         'mutagen',
-        'configobj'
+        'configobj',
+        'beautifulsoup4'
     ],
     scripts = ['vkd/bin/vkd'],
     license='',

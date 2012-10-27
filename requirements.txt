@@ -3,3 +3,4 @@ requests
 hurry.filesize
 mutagen
 configobj
+beautifulsoup4

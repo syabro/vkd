@@ -7,8 +7,7 @@ from mutagen.id3 import ID3, TPE2, TCMP, APIC, TAL, TRCK
 from bs4 import BeautifulSoup
 import requests
 
-import soupselect
-soupselect.monkeypatch()
+import soupselect; soupselect.monkeypatch()
 from download import download
 
 config = ConfigObj(os.path.expanduser('~/.vkd'))
@@ -39,14 +38,18 @@ def download_post(url):
     download(cover, target_dir, 'cover.jpg', ' Cover')
     cover_filename = os.path.join(target_dir, 'cover.jpg')
 
-    from PIL import Image
-    image = Image.open(cover_filename)
-    size = [min(image.size), min(image.size)]
-    background = Image.new('RGBA', size, (255, 255, 255, 0))
-    background.paste(
-        image,
-        ((size[0] - image.size[0]) / 2, (size[1] - image.size[1]) / 2))
-    background.save(cover_filename, format='jpeg')
+    try:
+        from PIL import Image
+        image = Image.open(cover_filename)
+        size = [min(image.size), min(image.size)]
+        background = Image.new('RGBA', size, (255, 255, 255, 0))
+        background.paste(
+            image,
+            ((size[0] - image.size[0]) / 2, (size[1] - image.size[1]) / 2))
+        background.save(cover_filename, format='jpeg')
+    except ImportError:
+        print u'PIL не найден. Вы можете попробовать его установить командой easy_install PIL'
+        print u'Ничего страшного, просто прямоугольные картинки для обложки не будут обрезаться до квадратных'
 
     print ' MP3s:'
     for i, song in enumerate(songs):

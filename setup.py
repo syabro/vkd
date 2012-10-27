@@ -60,7 +60,7 @@ if sys.platform == "darwin":
 else:
     cmdclasses = {'install_data': install_data}
 
-core_dir = 'reincubate_core'
+core_dir = 'vkd'
 packages = []
 data_files = []
 

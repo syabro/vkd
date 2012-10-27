@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # Encoding utf8
+from configobj import ConfigObj
 import os, shutil
 import mutagen
 from mutagen.id3 import ID3, TPE2, TCMP, APIC, TAL, TRCK
@@ -10,8 +11,8 @@ import soupselect
 soupselect.monkeypatch()
 from download import download
 
-
-itunes_autoimport_dir = '/Volumes/HDD/iTunes/Automatically Add to iTunes.localized/'
+config = ConfigObj(os.path.expanduser('~/.vkd'))
+itunes_autoimport_dir = config.get('itunes_autoimport_dir', os.path.expanduser('~/Music/iTunes/iTunes Media/Automatically Add to iTunes.localized/'))
 
 def download_post(url):
     response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.15 (KHTML, like Gecko) Chrome/24.0.1295.0 Safari/537.15'})

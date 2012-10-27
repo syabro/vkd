@@ -6,41 +6,6 @@ import os
 import re
 import sys
 
-def parse_requirements(file_name):
-    requirements = []
-    for line in open(file_name, 'r').read().split('\n'):
-        if re.match(r'(\s*#)|(\s*$)', line): # comments
-            continue
-        if re.match(r'^(\s*git\+)', line): #git+
-            if '#' in line: # git+https://github.com/robot-republic/python-s3#python-s3
-                requirements.append(line.split('#')[-1])
-            else: # git+https://github.com/robot-republic/python-s3
-                requirements.append(line.split('/')[-1])
-            continue
-        if re.match(r'\s*-e\s+', line):
-            # TODO support version numbers
-            requirements.append(re.sub(r'\s*-e\s+.*#egg=(.*)$', r'\1', line))
-        elif re.match(r'\s*-f\s+', line):
-            pass
-        else:
-            requirements.append(line)
-
-    return requirements
-
-
-def parse_dependency_links(file_name):
-    dependency_links = []
-    for line in open(file_name, 'r').read().split('\n'):
-        if re.match(r'(\s*git\+)', line):
-            url = line.strip()[4:].split('#')[0].rstrip('/').replace('https://', 'http://')
-            package = line.strip().split('#')[1]
-            dependency_links.append('%s/tarball/master#egg=%s-dev' % (url, package))
-
-    return dependency_links
-
-
-REQS = os.path.join(os.path.dirname(__file__), 'requirements.txt')
-
 
 class osx_install_data(install_data):
     # On MacOS, the platform-specific lib dir is /System/Library/Framework/Python/.../
@@ -97,8 +62,13 @@ setup(
     cmdclass = cmdclasses,
     data_files = data_files,
     url='https://github.com/syabro/vkontakte-post-downloader',
-    install_requires = parse_requirements(REQS),
-    dependency_links = parse_dependency_links(REQS),
+    install_requires = [
+        'html5lib',
+        'requests',
+        'hurry.filesize',
+        'mutagen',
+        'configobj'
+    ],
     scripts = ['vkd/bin/vkd'],
     license='',
     author='Max Syabro',

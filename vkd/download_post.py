@@ -24,7 +24,7 @@ def download_post(url):
     print title, '-', album
     songs = [{
         'url': input['value'].split(',')[0],
-        'title': bs.findSelect('#audio-%s .title_wrap' % input['id'].replace('audio_info-', ''))[0].text
+        'title': bs.findSelect('#audio%s .title_wrap' % input['id'].replace('audio_info', ''))[0].text
         } for input in bs.findSelect('input[type=hidden]') if input.has_key('id') and input['id'].startswith('audio')
     ]
 
@@ -83,3 +83,7 @@ def download_post(url):
         shutil.copyfile(filename, os.path.join(itunes_autoimport_dir, f))
 
     os.system('rm -rf %s' % target_dir)
+
+
+if __name__=='__main__':
+    download_post('https://vk.com/wall-35193970_6164')

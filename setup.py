@@ -99,7 +99,7 @@ setup(
     url='https://github.com/syabro/vkontakte-post-downloader',
     install_requires = parse_requirements(REQS),
     dependency_links = parse_dependency_links(REQS),
-    scripts = ['vkd/bin/vkd.py'],
+    scripts = ['vkd/bin/vkd'],
     license='',
     author='Max Syabro',
     author_email='syabro@gmail.com',

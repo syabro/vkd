@@ -92,15 +92,16 @@ for scheme in INSTALL_SCHEMES.values():
 
 setup(
     name='vkd',
-    version='1.0.0.0',
+    version='1.0.0.1',
     packages = packages,
     cmdclass = cmdclasses,
     data_files = data_files,
     url='https://github.com/syabro/vkontakte-post-downloader',
     install_requires = parse_requirements(REQS),
     dependency_links = parse_dependency_links(REQS),
+    scripts = ['vkd/bin/vkd.py'],
     license='',
-    author='',
-    author_email='',
+    author='Max Syabro',
+    author_email='syabro@gmail.com',
     description=''
 )

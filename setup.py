@@ -55,7 +55,7 @@ for scheme in INSTALL_SCHEMES.values():
 
 setup(
     name='vkd',
-    version='1.0.0.4',
+    version='1.0.0.5',
     packages = packages,
     cmdclass = cmdclasses,
     data_files = data_files,

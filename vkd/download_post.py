@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Encoding utf8
+# Encoding: utf8
 from configobj import ConfigObj
 import os, shutil
 import mutagen

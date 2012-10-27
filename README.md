@@ -26,3 +26,11 @@ vkontakte-post-downloader
 
 ```vkd https://vk.com/wall-26366069_7530```
 
+### Внимание!
+
+Если вы переносили папку iTunes, то необходимо создать файл
+`~/.vkd` с указанием нового местоположения папки `Automatically Add to iTunes`
+```
+itunes_autoimport_dir = /Volumes/HDD/iTunes/Automatically Add to iTunes.localized/
+```
+PS открыть файл можно командой `open -a TextEdit ~/.vkd`

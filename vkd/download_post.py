@@ -18,9 +18,15 @@ def download_post(url):
 
     bs = BeautifulSoup(response.text, 'html5lib')
     title = bs.findSelect('a.fw_post_author')[0].text
-    album = bs.findSelect('.wall_post_text')[0].text.split('\n')[0].strip()
-    album_id = bs.findSelect('.fw_like_count')[0]['id'].split('-')[1]
-    cover =  bs.findSelect('.page_media_thumb1 img')[0]['src']
+    try:
+        album = bs.findSelect('.wall_post_text')[0].text.split('\n')[0].strip()
+    except IndexError:
+        album = ''
+    album_id = bs.findSelect('.fw_like_count')[0]['id'].replace('like_count','')
+    try:
+        cover =  bs.findSelect('.page_media_thumb1 img')[0]['src']
+    except IndexError:
+        cover = None
     print title, '-', album
     songs = [{
         'url': input['value'].split(',')[0],
@@ -35,21 +41,22 @@ def download_post(url):
 
     # Downloading
     print '', title, '-', album_id
-    download(cover, target_dir, 'cover.jpg', ' Cover')
-    cover_filename = os.path.join(target_dir, 'cover.jpg')
+    if cover:
+        download(cover, target_dir, 'cover.jpg', ' Cover')
+        cover_filename = os.path.join(target_dir, 'cover.jpg')
 
-    try:
-        from PIL import Image
-        image = Image.open(cover_filename)
-        size = [min(image.size), min(image.size)]
-        background = Image.new('RGBA', size, (255, 255, 255, 0))
-        background.paste(
-            image,
-            ((size[0] - image.size[0]) / 2, (size[1] - image.size[1]) / 2))
-        background.save(cover_filename, format='jpeg')
-    except ImportError:
-        print u'PIL не найден. Вы можете попробовать его установить командой easy_install PIL'
-        print u'Ничего страшного, просто прямоугольные картинки для обложки не будут обрезаться до квадратных'
+        try:
+            from PIL import Image
+            image = Image.open(cover_filename)
+            size = [min(image.size), min(image.size)]
+            background = Image.new('RGBA', size, (255, 255, 255, 0))
+            background.paste(
+                image,
+                ((size[0] - image.size[0]) / 2, (size[1] - image.size[1]) / 2))
+            background.save(cover_filename, format='jpeg')
+        except ImportError:
+            print u'PIL не найден. Вы можете попробовать его установить командой easy_install PIL'
+            print u'Ничего страшного, просто прямоугольные картинки для обложки не будут обрезаться до квадратных'
 
     print ' MP3s:'
     for i, song in enumerate(songs):
@@ -67,18 +74,20 @@ def download_post(url):
         id3.unknown_frames = getattr(id3, 'unknown_frames', [])
         id3.update_to_v24()
         id3.add(TPE2(encoding=3, text=title))
-        id3.add(TAL(encoding=3, text=album))
+        if album:
+            id3.add(TAL(encoding=3, text=album))
         id3.add(TCMP(encoding=3, text='1'))
         id3.add(TRCK(encoding=3, text=''))
-        id3.add(
-            APIC(
-                encoding=3, # 3 is for utf-8
-                mime='image/jpeg', # image/jpeg or image/png
-                type=3, # 3 is for the cover image
-                desc=u'Cover',
-                data=open(cover_filename).read()
+        if cover:
+            id3.add(
+                APIC(
+                    encoding=3, # 3 is for utf-8
+                    mime='image/jpeg', # image/jpeg or image/png
+                    type=3, # 3 is for the cover image
+                    desc=u'Cover',
+                    data=open(cover_filename).read()
+                )
             )
-        )
         id3.save(filename)
         shutil.copyfile(filename, os.path.join(itunes_autoimport_dir, f))
 

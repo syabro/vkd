@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+# Encoding: utf-8
+import os
+import sys
+
+from vkd.download_album import download_album
+if len(sys.argv)==1:
+    print u'Для закачки укажите урл: %s url' % os.path.basename(__file__)
+    exit()
+
+download_album(sys.argv[1])

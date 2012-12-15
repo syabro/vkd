@@ -4,3 +4,4 @@ hurry.filesize
 mutagen
 configobj
 beautifulsoup4
+vkontakte

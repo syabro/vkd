@@ -55,7 +55,7 @@ for scheme in INSTALL_SCHEMES.values():
 
 setup(
     name='vkd',
-    version='1.0.0.7',
+    version='1.0.0.8',
     packages = packages,
     cmdclass = cmdclasses,
     data_files = data_files,
@@ -68,7 +68,7 @@ setup(
         'configobj',
         'beautifulsoup4'
     ],
-    scripts = ['vkd/bin/vkd'],
+    scripts = ['vkd/bin/vkd', 'vkd/bin/vk_download_album'],
     license='',
     author='Max Syabro',
     author_email='syabro@gmail.com',

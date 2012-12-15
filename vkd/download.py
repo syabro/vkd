@@ -1,3 +1,4 @@
+# Encoding: utf-8
 import urllib2
 import os
 
@@ -6,11 +7,17 @@ from hurry.filesize import size, alternative
 def download(url, target_dir, filename=None, title=None):
     filename = filename or url.split('/')[-1]
     file_name = os.path.join(target_dir, filename)
-    u = urllib2.urlopen(url)
+
+    print url
+    try:
+        u = urllib2.urlopen(url, timeout=3)
+    except urllib2.URLError, e:
+        print u'Ошибка:', str(e)
+        return
 
     meta = u.info()
     file_size = int(meta.getheaders("Content-Length")[0])
-    print "%s (%s)" % ((title or url), filename)
+#    print "%s (%s)" % ((title or url), filename)
 
     if os.path.exists(file_name):
         if os.path.getsize(file_name) == file_size:
